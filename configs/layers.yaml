@@ -1,0 +1,8 @@
+# Mutual Self-Attention
+SKIP_LAYERS: []
+VITAL_LAYERS: [20, 3, 4] # 20, 3, 4, 17
+
+guidance_scale: 7
+
+# Control Strength
+USE_TRATIO: True
