@@ -12,9 +12,11 @@
 
 
 
+
 # Demo page
 
 https://musickv2026.github.io/MusicKV2026.
+
 
 
 
@@ -25,6 +27,8 @@ Install the conda virtual environment:
 conda env create -f environment.yml
 conda activate musickv
 ```
+
+
 
 
 # Usage
@@ -59,6 +63,8 @@ When using the command with multiple prompts, the interpretation is as follows: 
 ## Prompt structure
 
 Since MusicKV is based on Stable Audio Open, which does not process free-form natural language instructions optimally, you will achieve the best results by ordering your description in a logical sequence. A good prompt structure includes: **Core style and genre, key musical elements, mood and emotion, specific details, BPM, and additional instructions**. The order of these elements matters for the model's understanding.
+
+
 
 
 
