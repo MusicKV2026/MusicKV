@@ -8,7 +8,6 @@ import torchaudio
 from diffusers.schedulers.scheduling_cosine_dpmsolver_multistep_inverse import CosineDPMSolverMultistepInverseScheduler
 
 class StableAudioGenerator:
-
     def __init__(self):
         self._load_config()
         self._parse_args()
