@@ -439,9 +439,7 @@ class StableAudioInversionPipeline(DiffusionPipeline):
             latents = latents.to(device)
 
         # scale the initial noise by the standard deviation required by the scheduler
-        print(f"[init_noise_sigma前]音频范围： {latents.min().item():.6f}/{latents.max().item():.6f}")
         latents = latents * self.scheduler.init_noise_sigma
-        print(f"[init_noise_sigma后]音频范围： {latents.min().item():.6f}/{latents.max().item():.6f}")
 
         return latents
 
@@ -641,7 +639,7 @@ class StableAudioInversionPipeline(DiffusionPipeline):
         self.scheduler.set_timesteps(num_inference_steps, device=device)
         timesteps = self.scheduler.timesteps
 
-        # 5. Prepare latent variables 这里可以优化：直接设置为latent即可·[init noise sigma 是否需要？]
+        # 5. Prepare latent variables 
         # num_channels_vae = self.transformer.config.in_channels
         # latents = self.prepare_latents(
         #     batch_size * num_waveforms_per_prompt,
@@ -693,19 +691,7 @@ class StableAudioInversionPipeline(DiffusionPipeline):
 
   
                 # compute the previous noisy sample x_t -> x_t-1
-                # ddim逆向，得到初步估计
                 latents = self.scheduler.step(noise_pred, t, latents, **extra_step_kwargs).prev_sample
-              
-                # -------- 每隔 step_interval 输出一次音频 --------
-                # if i % 99 == 0:
-                #     with torch.no_grad():
-                #         decoded_audio = self.vae.decode(latents).sample
-                #     decoded_audio_np = decoded_audio.squeeze(0).cpu().float().numpy().T
-                #     output_path = os.path.join("audio_output", f"step{i}.wav")
-                #     sf.write(output_path, decoded_audio_np, self.vae.sampling_rate)
-                #     print(f"[Step {i}] 中间音频已保存到 {output_path}")
-                # ------------------------------------------------
-                # print(f"[after tep {i}] latents min/max: {latents.min().item():.6f}/{latents.max().item():.6f}")
                 
                 # call the callback, if provided
                 if i == len(timesteps) - 1 or ((i + 1) > num_warmup_steps and (i + 1) % self.scheduler.order == 0):
